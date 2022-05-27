@@ -1,26 +1,28 @@
 package main
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 	"time"
 
 	"github.com/DmitriyKhandus/rest-api/internal/user"
+	"github.com/DmitriyKhandus/rest-api/pkg/logging"
 	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
-	fmt.Println("create router")
+	logger := logging.GetLogger()
+	logger.Info("create router")
 	router := httprouter.New()
-	fmt.Println("register user handler")
-	handler := user.NewHandler()
+	logger.Info("register user handler")
+	handler := user.NewHandler(logger)
 	handler.Register(router)
 	start(router)
 }
 
 func start(router *httprouter.Router) {
-	fmt.Println("start application")
+	logger := logging.GetLogger()
+	logger.Info("start application")
 	listener, err := net.Listen("tcp", ":3000")
 
 	if err != nil {
@@ -32,6 +34,6 @@ func start(router *httprouter.Router) {
 		WriteTimeout: 10 * time.Second,
 		ReadTimeout:  10 * time.Second,
 	}
-	fmt.Println("Server is listening on port: 3000")
+	logger.Info("Server is listening on port: 3000")
 	server.Serve(listener)
 }
