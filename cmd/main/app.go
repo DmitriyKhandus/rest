@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net"
 	"net/http"
@@ -12,8 +11,6 @@ import (
 
 	"github.com/DmitriyKhandus/rest-api/internal/config"
 	"github.com/DmitriyKhandus/rest-api/internal/user"
-	"github.com/DmitriyKhandus/rest-api/internal/user/db"
-	"github.com/DmitriyKhandus/rest-api/pkg/client/mongodb"
 	"github.com/DmitriyKhandus/rest-api/pkg/logging"
 	"github.com/julienschmidt/httprouter"
 )
@@ -23,26 +20,26 @@ func main() {
 	logger.Info("create router")
 	router := httprouter.New()
 	cfg := config.GetConfig()
-	mongoDBClient, err := mongodb.NewClient(context.Background(), cfg.MongoDB.Host,
-		cfg.MongoDB.Port, cfg.MongoDB.Username, cfg.MongoDB.Password, cfg.MongoDB.Database, cfg.MongoDB.AuthDB)
-	if err != nil {
-		panic(err)
-	}
+	// mongoDBClient, err := mongodb.NewClient(context.Background(), cfg.MongoDB.Host,
+	// 	cfg.MongoDB.Port, cfg.MongoDB.Username, cfg.MongoDB.Password, cfg.MongoDB.Database, cfg.MongoDB.AuthDB)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	storage := db.NewStorage(mongoDBClient, cfg.MongoDB.Collection, logger)
+	// storage := db.NewStorage(mongoDBClient, cfg.MongoDB.Collection, logger)
 
-	user1 := user.User{
-		Id:           "",
-		Email:        "myemail@mail.ru",
-		Username:     "imagination",
-		PasswordHash: "123",
-	}
+	// user1 := user.User{
+	// 	Id:           "",
+	// 	Email:        "myemail@mail.ru",
+	// 	Username:     "imagination",
+	// 	PasswordHash: "123",
+	// }
 
-	user1Id, err := storage.Create(context.Background(), user1)
-	if err != nil {
-		panic(err)
-	}
-	logger.Info(user1Id)
+	// user1Id, err := storage.Create(context.Background(), user1)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// logger.Info(user1Id)
 
 	logger.Info("register user handler")
 	handler := user.NewHandler(logger)
