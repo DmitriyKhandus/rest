@@ -23,7 +23,6 @@ func main() {
 	logger.Info("create router")
 	router := httprouter.New()
 	cfg := config.GetConfig()
-
 	mongoDBClient, err := mongodb.NewClient(context.Background(), cfg.MongoDB.Host,
 		cfg.MongoDB.Port, cfg.MongoDB.Username, cfg.MongoDB.Password, cfg.MongoDB.Database, cfg.MongoDB.AuthDB)
 	if err != nil {
